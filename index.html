@@ -184,7 +184,7 @@
             document.getElementById('price-display').innerText = "RM " + total.toLocaleString();
             document.getElementById('breakdown-text').innerText = breakdown;
 
-            const phone = "601131461947"; 
+            const phone = "60123420658"; 
             const msg = `CIDB Inquiry: ${currentType} Grade ${grade} for ${years} yr. Estimated: RM${total}. (Negotiable Inquiry)`;
             document.getElementById('wa-button').href = "https://wa.me/" + phone + "?text=" + encodeURIComponent(msg);
         }
@@ -192,4 +192,5 @@
         window.onload = calc;
     </script>
 </body>
+
 </html>
