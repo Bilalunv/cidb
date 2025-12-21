@@ -10,31 +10,26 @@
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         
         body { 
-            background-color: #0f172a; /* Deep Dark Background */
+            background-color: #0f172a; 
             font-family: 'Plus Jakarta Sans', sans-serif;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* Trademark Watermark Pattern */
         body::before {
             content: "CIDB CIDB CIDB CIDB";
             position: fixed;
             top: 0; left: 0; width: 200%; height: 200%;
-            font-size: 100px;
-            font-weight: 900;
-            color: rgba(255, 255, 255, 0.03); /* Very subtle watermark */
+            font-size: 100px; font-weight: 900;
+            color: rgba(255, 255, 255, 0.02); 
             transform: rotate(-30deg);
             z-index: -1;
-            display: flex;
-            flex-wrap: wrap;
-            line-height: 200px;
-            pointer-events: none;
+            display: flex; flex-wrap: wrap; line-height: 200px; pointer-events: none;
         }
 
         .card { 
-            background: rgba(30, 41, 59, 0.95); /* Slate Dark Card */
+            background: rgba(30, 41, 59, 0.95); 
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 28px; 
@@ -44,37 +39,28 @@
         .tab-active { background: #3b82f6; color: white; box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
         .tab-inactive { background: #1e293b; color: #94a3b8; }
         
-        select, input { 
-            background-color: #0f172a !important; 
-            color: white !important;
-            border-color: #334155 !important;
-        }
+        select { background-color: #0f172a !important; color: white !important; border-color: #334155 !important; }
 
-        .note-box { 
-            background: rgba(245, 158, 11, 0.1); 
-            border-left: 4px solid #f59e0b; 
-            padding: 12px 16px; 
-            border-radius: 12px; 
-        }
+        .note-box { background: rgba(245, 158, 11, 0.1); border-left: 4px solid #f59e0b; padding: 12px 16px; border-radius: 12px; }
     </style>
 </head>
 <body class="p-4 md:p-12">
 
     <div class="max-w-2xl mx-auto text-center mb-10 relative z-10">
         <span class="bg-blue-600/20 text-blue-400 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest border border-blue-500/30">Official Consultant</span>
-        <h1 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-2 tracking-tight">CIDB Services <span class="text-blue-500 text-nowrap tracking-tighter">Malaysia</span></h1>
-        <p class="text-slate-400 text-base md:text-lg font-medium">Fast, Reliable & Professional Licensing Solutions</p>
+        <h1 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-2 tracking-tight">CIDB Services <span class="text-blue-500">Malaysia</span></h1>
+        <p class="text-slate-400 text-base md:text-lg">Premium Licensing & Blacklist Solutions</p>
     </div>
 
     <div class="max-w-xl mx-auto card overflow-hidden relative z-10">
         <div class="flex p-3 gap-2 bg-slate-800/50">
             <button id="btn-new" onclick="setType('new')" class="flex-1 py-4 font-bold text-center transition rounded-2xl tab-active uppercase text-xs tracking-wider">New Registration</button>
-            <button id="btn-renew" onclick="setType('renew')" class="flex-1 py-4 font-bold text-center transition rounded-2xl tab-inactive uppercase text-xs tracking-wider border border-transparent hover:border-slate-600">Renewal</button>
+            <button id="btn-renew" onclick="setType('renew')" class="flex-1 py-4 font-bold text-center transition rounded-2xl tab-inactive uppercase text-xs tracking-wider border border-transparent">Renewal</button>
         </div>
 
         <div class="p-6 md:p-10">
             <div class="mb-6">
-                <label class="block text-[10px] font-black text-slate-500 mb-2 uppercase tracking-[0.2em] text-center">Step 1: Select Your Grade</label>
+                <label class="block text-[10px] font-black text-slate-500 mb-2 uppercase tracking-widest text-center">Step 1: Select Your Grade</label>
                 <select id="grade" onchange="calc()" class="w-full p-4 border-2 rounded-2xl outline-none text-2xl font-bold transition-all focus:ring-2 focus:ring-blue-500">
                     <option value="G1">Grade G1</option>
                     <option value="G2">Grade G2</option>
@@ -107,10 +93,18 @@
                     </select>
                 </div>
                 
-                <div id="extra-options" class="hidden">
+                <div id="renewal-options" class="hidden space-y-3">
                     <label class="flex items-center p-4 bg-orange-500/5 rounded-xl border border-orange-500/20 cursor-pointer hover:bg-orange-500/10 transition">
                         <input type="checkbox" id="score" onchange="calc()" class="w-6 h-6 rounded accent-orange-500">
                         <span class="ml-4 font-bold text-orange-200 text-sm italic">Include Score Certificate (+RM 350)</span>
+                    </label>
+                    
+                    <label class="flex items-center p-4 bg-red-500/10 rounded-xl border border-red-500/30 cursor-pointer hover:bg-red-500/20 transition">
+                        <input type="checkbox" id="blacklist" onchange="calc()" class="w-6 h-6 rounded accent-red-600">
+                        <div class="ml-4">
+                            <span class="block font-black text-red-400 text-sm uppercase">Company is Blacklisted</span>
+                            <span id="blacklist-fee-text" class="text-[10px] text-red-300/70 font-bold tracking-wider"></span>
+                        </div>
                     </label>
                 </div>
             </div>
@@ -122,7 +116,7 @@
 
             <div class="note-box mb-8">
                 <p class="text-[11px] text-orange-200 font-medium leading-relaxed">
-                    <i class="fas fa-gavel mr-1 text-orange-400"></i> <strong>IMPORTANT:</strong> Prices are negotiable based on company volume. CIDB may request further documentation upon review.
+                    <i class="fas fa-gavel mr-1 text-orange-400"></i> <strong>IMPORTANT:</strong> Prices are negotiable. Blacklist removal requires extra verification and processing time.
                 </p>
             </div>
 
@@ -141,20 +135,20 @@
     <script>
         let currentType = 'new';
         const gradeData = {
-            "G1": { new: 255, renew: 320, capital: "5,000", capacity: "200,000", docs: ["Director IC Copy", "SSM (Full Set)", "Latest Bank Statement"] },
-            "G2": { new: 575, renew: 510, capital: "25,000", capacity: "500,000", docs: ["Director IC Copy", "SSM (Full Set)", "Latest Bank Statement"] },
-            "G3": { new: 1015, renew: 695, capital: "50,000", capacity: "1 Million", docs: ["Director IC Copy", "SSM (Full Set)", "Latest Bank Statement"] },
-            "G4": { new: 1450, renew: 910, capital: "150,000", capacity: "3 Million", docs: ["Director IC Copy", "SSM (Full Set)", "Latest Bank Statement"] },
-            "G5": { new: 2060, renew: 970, capital: "250,000", capacity: "5 Million", docs: ["Director IC Copy", "SSM Full Set", "Bank Statement", "1x Tech Personnel (Degree)"] },
-            "G6": { new: 2665, renew: 1210, capital: "500,000", capacity: "10 Million", docs: ["Director IC Copy", "SSM Full Set", "Bank Statement", "Tech Personnel Details"] },
-            "G7": { new: 3025, renew: 1815, capital: "750,000", capacity: "NO LIMIT", docs: ["Director IC Copy", "SSM Full Set", "Bank Statement", "2x Tech Personnel (Degree)"] }
+            "G1": { new: 255, renew: 320, capital: "5,000", capacity: "200,000", blacklist: 700, docs: ["Director IC Copy", "SSM (Full Set)", "Bank Statement"] },
+            "G2": { new: 575, renew: 510, capital: "25,000", capacity: "500,000", blacklist: 700, docs: ["Director IC Copy", "SSM (Full Set)", "Bank Statement"] },
+            "G3": { new: 1015, renew: 695, capital: "50,000", capacity: "1 Million", blacklist: 700, docs: ["Director IC Copy", "SSM (Full Set)", "Bank Statement"] },
+            "G4": { new: 1450, renew: 910, capital: "150,000", capacity: "3 Million", blacklist: 950, docs: ["Director IC Copy", "SSM (Full Set)", "Bank Statement"] },
+            "G5": { new: 2060, renew: 970, capital: "250,000", capacity: "5 Million", blacklist: 1500, docs: ["Director IC Copy", "SSM Full Set", "Bank Statement", "1x Tech Personnel"] },
+            "G6": { new: 2665, renew: 1210, capital: "500,000", capacity: "10 Million", blacklist: 2000, docs: ["Director IC Copy", "SSM Full Set", "Bank Statement", "Tech Personnel"] },
+            "G7": { new: 3025, renew: 1815, capital: "750,000", capacity: "NO LIMIT", blacklist: 2000, docs: ["Director IC Copy", "SSM Full Set", "Bank Statement", "2x Tech Personnel"] }
         };
 
         function setType(t) {
             currentType = t;
             document.getElementById('btn-new').className = t === 'new' ? 'flex-1 py-4 font-bold text-center transition rounded-2xl tab-active uppercase text-xs tracking-wider' : 'flex-1 py-4 font-bold text-center transition rounded-2xl tab-inactive uppercase text-xs tracking-wider border border-transparent';
             document.getElementById('btn-renew').className = t === 'renew' ? 'flex-1 py-4 font-bold text-center transition rounded-2xl tab-active uppercase text-xs tracking-wider' : 'flex-1 py-4 font-bold text-center transition rounded-2xl tab-inactive uppercase text-xs tracking-wider border border-transparent';
-            document.getElementById('extra-options').classList.toggle('hidden', t === 'new');
+            document.getElementById('renewal-options').classList.toggle('hidden', t === 'new');
             calc();
         }
 
@@ -165,7 +159,10 @@
             
             document.getElementById('req-capital').innerText = "RM " + parseInt(info.capital.replace(/,/g, '')).toLocaleString();
             document.getElementById('req-capacity').innerText = info.capacity === "NO LIMIT" ? info.capacity : "Up to " + info.capacity;
-            document.getElementById('req-docs').innerHTML = info.docs.map(d => `<li class='flex items-center text-slate-300'><i class='fas fa-check-circle text-blue-500 mr-3'></i> ${d}</li>`).join('');
+            document.getElementById('req-docs').innerHTML = info.docs.map(d => `<li class='flex items-center'><i class='fas fa-check-circle text-blue-500 mr-3'></i> ${d}</li>`).join('');
+            
+            // Show current grade's blacklist fee in label
+            document.getElementById('blacklist-fee-text').innerText = `+ RM ${info.blacklist.toLocaleString()} SPECIAL CASE FEE`;
 
             let total = 0;
             let breakdown = "";
@@ -175,22 +172,25 @@
                 breakdown = `${years} Year New Registration`;
             } else {
                 const scoreReq = document.getElementById('score').checked;
+                const blacklistReq = document.getElementById('blacklist').checked;
+                
                 let ccdCost = (years * 40 / 20) * 350;
                 total = (info.renew * years) + ccdCost;
-                breakdown = `${years} Yr Renewal + ${years*40} CCD Points`;
-                if (scoreReq) { total += 350; breakdown += " + Score Cert"; }
+                breakdown = `${years} Yr Renew + ${years*40} CCD`;
+                
+                if (scoreReq) { total += 350; breakdown += " + Score"; }
+                if (blacklistReq) { total += info.blacklist; breakdown += " + BLACKLIST CLEARANCE"; }
             }
 
             document.getElementById('price-display').innerText = "RM " + total.toLocaleString();
             document.getElementById('breakdown-text').innerText = breakdown;
 
             const phone = "60123420658"; 
-            const msg = `CIDB Inquiry: ${currentType} Grade ${grade} for ${years} yr. Estimated: RM${total}. (Negotiable Inquiry)`;
+            const msg = `CIDB Inquiry: ${currentType} Grade ${grade} for ${years} yr. Total: RM${total}. (${breakdown})`;
             document.getElementById('wa-button').href = "https://wa.me/" + phone + "?text=" + encodeURIComponent(msg);
         }
 
         window.onload = calc;
     </script>
 </body>
-
 </html>
