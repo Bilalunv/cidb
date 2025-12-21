@@ -3,151 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CIDB Specialist Malaysia | Dark Edition</title>
+    <title>CIDB Specialist Malaysia | Premium Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         
         body { 
-            background-color: #0f172a; 
+            background-color: #020617; 
             font-family: 'Plus Jakarta Sans', sans-serif;
             min-height: 100vh;
-            position: relative;
+            color: white;
             overflow-x: hidden;
         }
 
-        body::before {
-            content: "CIDB CIDB CIDB CIDB";
+        /* Animated Tech Background */
+        .tech-bg {
             position: fixed;
-            top: 0; left: 0; width: 200%; height: 200%;
-            font-size: 100px; font-weight: 900;
-            color: rgba(255, 255, 255, 0.02); 
-            transform: rotate(-30deg);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%);
             z-index: -1;
-            display: flex; flex-wrap: wrap; line-height: 200px; pointer-events: none;
         }
 
+        .tech-bg::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Glassmorphism Cards */
         .card { 
-            background: rgba(30, 41, 59, 0.95); 
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 28px; 
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
+            background: rgba(15, 23, 42, 0.8); 
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8); 
         }
 
-        .tab-active { background: #3b82f6; color: white; box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+        .selection-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.05);
+            background: rgba(30, 41, 59, 0.4);
+        }
+
+        .selection-card:hover {
+            transform: scale(1.05);
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .tab-active { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4); }
         .tab-inactive { background: #1e293b; color: #94a3b8; }
         
-        select { background-color: #0f172a !important; color: white !important; border-color: #334155 !important; }
+        select, input { background-color: #020617 !important; color: white !important; border: 1px solid #334155 !important; outline: none; }
+        select:focus, input:focus { border-color: #3b82f6 !important; }
 
-        .note-box { background: rgba(245, 158, 11, 0.1); border-left: 4px solid #f59e0b; padding: 12px 16px; border-radius: 12px; }
+        .discount-badge {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+
+        .hidden-section { display: none; }
     </style>
 </head>
 <body class="p-4 md:p-12">
+    <div class="tech-bg"></div>
 
-    <div class="max-w-2xl mx-auto text-center mb-10 relative z-10">
-        <span class="bg-blue-600/20 text-blue-400 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest border border-blue-500/30">Official Consultant</span>
-        <h1 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-2 tracking-tight">CIDB Services <span class="text-blue-500">Malaysia</span></h1>
-        <p class="text-slate-400 text-base md:text-lg">Premium Licensing & Blacklist Solutions</p>
-    </div>
-
-    <div class="max-w-xl mx-auto card overflow-hidden relative z-10">
-        <div class="flex p-3 gap-2 bg-slate-800/50">
-            <button id="btn-new" onclick="setType('new')" class="flex-1 py-4 font-bold text-center transition rounded-2xl tab-active uppercase text-xs tracking-wider">New Registration</button>
-            <button id="btn-renew" onclick="setType('renew')" class="flex-1 py-4 font-bold text-center transition rounded-2xl tab-inactive uppercase text-xs tracking-wider border border-transparent">Renewal</button>
+    <div id="selection-screen" class="max-w-4xl mx-auto py-12 relative z-10">
+        <div class="text-center mb-16">
+            <div class="inline-block px-4 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-black uppercase tracking-[0.2em] mb-4">Accredited CIDB Business Consultant</div>
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6">CIDB<span class="text-blue-500 italic">PORTAL</span></h1>
+            <p class="text-slate-400 text-lg max-w-lg mx-auto">Professional processing and fee estimation for construction compliance.</p>
         </div>
 
-        <div class="p-6 md:p-10">
-            <div class="mb-6">
-                <label class="block text-[10px] font-black text-slate-500 mb-2 uppercase tracking-widest text-center">Step 1: Select Your Grade</label>
-                <select id="grade" onchange="calc()" class="w-full p-4 border-2 rounded-2xl outline-none text-2xl font-bold transition-all focus:ring-2 focus:ring-blue-500">
-                    <option value="G1">Grade G1</option>
-                    <option value="G2">Grade G2</option>
-                    <option value="G3">Grade G3</option>
-                    <option value="G4">Grade G4</option>
-                    <option value="G5">Grade G5</option>
-                    <option value="G6">Grade G6</option>
-                    <option value="G7">Grade G7</option>
-                </select>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div onclick="showService('reg')" class="selection-card p-10 rounded-[40px] text-center">
+                <div class="w-20 h-20 bg-blue-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-blue-500/20">
+                    <i class="fas fa-layer-group text-3xl text-blue-500"></i>
+                </div>
+                <h3 class="text-2xl font-black mb-2 tracking-tight">Company Registration</h3>
+                <p class="text-slate-500 text-sm">G1 - G7 Licensing & Compliance Solutions</p>
             </div>
 
-            <div class="grid grid-cols-2 gap-4 mb-6">
-                <div class="p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20">
-                    <p class="text-[10px] uppercase font-black text-emerald-400 mb-1">Paid-up Capital</p>
-                    <p id="req-capital" class="font-black text-white text-xl">RM 5,000</p>
+            <div onclick="showService('card')" class="selection-card p-10 rounded-[40px] text-center">
+                <div class="w-20 h-20 bg-emerald-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-emerald-500/20">
+                    <i class="fas fa-id-badge text-3xl text-emerald-500"></i>
                 </div>
-                <div class="p-4 bg-blue-500/10 rounded-2xl border border-blue-500/20 text-right">
-                    <p class="text-[10px] uppercase font-black text-blue-400 mb-1">Capacity</p>
-                    <p id="req-capacity" class="font-black text-white text-xl">Up to 200k</p>
-                </div>
+                <h3 class="text-2xl font-black mb-2 tracking-tight">Personnel Green Card</h3>
+                <p class="text-slate-500 text-sm">Local & Foreign Workforce Documentation</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="service-container" class="max-w-xl mx-auto hidden-section relative z-10">
+        <button onclick="goBack()" class="mb-8 text-slate-500 hover:text-white transition flex items-center font-bold uppercase text-[10px] tracking-widest group">
+            <i class="fas fa-chevron-left mr-2 group-hover:-translate-x-1 transition"></i> Return to Selection
+        </button>
+
+        <div id="section-reg" class="card overflow-hidden hidden-section border-blue-500/10">
+            <div class="flex p-3 gap-2 bg-slate-900/50">
+                <button id="btn-new" onclick="setType('new')" class="flex-1 py-4 font-bold text-center transition rounded-2xl tab-active uppercase text-[10px] tracking-widest">New Company Registration</button>
+                <button id="btn-renew" onclick="setType('renew')" class="flex-1 py-4 font-bold text-center transition rounded-2xl tab-inactive uppercase text-[10px] tracking-widest border border-transparent">Company Renewal </button>
             </div>
 
-            <div class="space-y-4 mb-6">
-                <div>
-                    <label class="block text-[10px] font-black text-slate-500 mb-2 uppercase tracking-widest">Registration Period</label>
-                    <select id="years" onchange="calc()" class="w-full p-4 border-2 rounded-xl font-bold">
-                        <option value="1">1 Year</option>
-                        <option value="2">2 Years</option>
-                        <option value="3">3 Years</option>
+            <div class="p-6 md:p-10">
+                <div class="mb-8">
+                    <label class="block text-[10px] font-black text-slate-500 mb-3 uppercase tracking-[0.2em] text-center">Contractor Grade</label>
+                    <select id="grade" onchange="calc()" class="w-full p-5 rounded-2xl text-2xl font-black shadow-inner text-center">
+                        <option value="G1">Grade G1</option><option value="G2">Grade G2</option>
+                        <option value="G3">Grade G3</option><option value="G4">Grade G4</option>
+                        <option value="G5">Grade G5</option><option value="G6">Grade G6</option>
+                        <option value="G7">Grade G7</option>
                     </select>
                 </div>
-                
-                <div id="renewal-options" class="hidden space-y-3">
-                    <label class="flex items-center p-4 bg-orange-500/5 rounded-xl border border-orange-500/20 cursor-pointer hover:bg-orange-500/10 transition">
-                        <input type="checkbox" id="score" onchange="calc()" class="w-6 h-6 rounded accent-orange-500">
-                        <span class="ml-4 font-bold text-orange-200 text-sm italic">Include Score Certificate (+RM 350)</span>
-                    </label>
+
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <div class="p-5 bg-slate-900/80 rounded-3xl border border-white/5">
+                        <p class="text-[10px] uppercase font-black text-blue-400 mb-1">Paid-up Capital</p>
+                        <p id="req-capital" class="font-black text-white text-xl">RM 5,000</p>
+                    </div>
+                    <div class="p-5 bg-slate-900/80 rounded-3xl border border-white/5 text-right">
+                        <p class="text-[10px] uppercase font-black text-emerald-400 mb-1">Tendering Limit</p>
+                        <p id="req-capacity" class="font-black text-white text-xl">200k</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4 mb-8">
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-500 mb-3 uppercase tracking-[0.2em]">Validity Period</label>
+                        <select id="years" onchange="calc()" class="w-full p-4 rounded-xl font-bold">
+                            <option value="1">1 Year</option><option value="2">2 Years</option><option value="3">3 Years</option>
+                        </select>
+                    </div>
                     
-                    <label class="flex items-center p-4 bg-red-500/10 rounded-xl border border-red-500/30 cursor-pointer hover:bg-red-500/20 transition">
-                        <input type="checkbox" id="blacklist" onchange="calc()" class="w-6 h-6 rounded accent-red-600">
-                        <div class="ml-4">
-                            <span class="block font-black text-red-400 text-sm uppercase">Company is Blacklisted</span>
-                            <span id="blacklist-fee-text" class="text-[10px] text-red-300/70 font-bold tracking-wider"></span>
+                    <div id="renewal-options" class="hidden space-y-3">
+                        <label class="flex items-center p-4 bg-orange-500/5 rounded-2xl border border-orange-500/20 cursor-pointer">
+                            <input type="checkbox" id="score" onchange="calc()" class="w-6 h-6 rounded-lg accent-orange-500">
+                            <span class="ml-4 font-bold text-orange-200 text-sm">Include Score Certificate Processing</span>
+                        </label>
+                        <label class="flex items-center p-4 bg-red-500/5 rounded-2xl border border-red-500/20 cursor-pointer">
+                            <input type="checkbox" id="blacklist" onchange="calc()" class="w-6 h-6 rounded-lg accent-red-600">
+                            <div class="ml-4">
+                                <span class="block font-black text-red-400 text-sm uppercase">Blacklist Resolution</span>
+                                <span id="blacklist-fee-text" class="text-[10px] text-red-300/60 font-bold"></span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <p class="text-[10px] uppercase font-black text-slate-500 mb-4 tracking-widest">Compliance Checklist</p>
+                    <ul id="req-docs" class="grid grid-cols-1 gap-2 text-[11px] font-bold text-slate-400"></ul>
+                </div>
+
+                <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-[35px] p-8 text-center border-t border-white/10 shadow-2xl relative">
+                    <p class="text-blue-400 text-[10px] font-black uppercase tracking-[0.3em] mb-2 opacity-70">Estimated Professional Fee</p>
+                    <div id="price-display" class="text-5xl font-black text-white tracking-tighter">RM 0</div>
+                    <p id="breakdown-text" class="text-slate-400 text-[10px] font-bold mt-2 uppercase tracking-widest"></p>
+                </div>
+                <a href="#" id="wa-button" class="w-full mt-6 flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-black py-5 rounded-[24px] shadow-xl transition-all text-xl">
+                    <i class="fab fa-whatsapp text-3xl mr-3"></i> CONSULT WITH SPECIALIST
+                </a>
+            </div>
+        </div>
+
+        <div id="section-card" class="card p-6 md:p-10 hidden-section border-emerald-500/10">
+            <h2 class="text-3xl font-black text-center mb-8 tracking-tighter italic uppercase">Green Card <span class="text-emerald-500">Services</span></h2>
+            
+            <div class="flex gap-2 p-1.5 bg-slate-900 rounded-2xl mb-8">
+                <button id="gc-local" onclick="setGCType('local')" class="flex-1 py-4 font-bold rounded-xl tab-active text-[10px] tracking-widest uppercase">Local (MyKad)</button>
+                <button id="gc-foreign" onclick="setGCType('foreign')" class="flex-1 py-4 font-bold rounded-xl tab-inactive text-[10px] tracking-widest uppercase">Foreign Personnel</button>
+            </div>
+
+            <div class="space-y-6">
+                <div id="gc-qty-box" class="hidden-section">
+                    <div class="flex justify-between items-end mb-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Total Workforce</label>
+                        <div id="live-discount-tag" class="hidden discount-badge"></div>
+                    </div>
+                    <input type="number" id="gc-qty" value="1" min="1" oninput="calcGC()" class="w-full p-5 rounded-2xl text-2xl font-black shadow-inner">
+                    <div class="mt-3 flex gap-2 overflow-x-auto pb-2">
+                        <div class="flex-shrink-0 bg-slate-900 border border-white/5 p-2 rounded-lg text-center min-w-[120px]">
+                            <p class="text-[8px] text-slate-500 font-bold uppercase">5+ Personnel</p>
+                            <p class="text-[10px] text-blue-400 font-black">BULK RATE APPLY</p>
                         </div>
+                        <div class="flex-shrink-0 bg-slate-900 border border-white/5 p-2 rounded-lg text-center min-w-[120px]">
+                            <p class="text-[8px] text-slate-500 font-bold uppercase">13+ Personnel</p>
+                            <p class="text-[10px] text-emerald-400 font-black">CORPORATE RATE</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="gc-years-box">
+                    <label class="block text-[10px] font-black text-slate-500 mb-3 uppercase tracking-widest">Card Validity Period</label>
+                    <select id="gc-years" onchange="calcGC()" class="w-full p-4 rounded-xl font-bold">
+                        <option value="1">1 Year</option><option value="2">2 Years</option><option value="3">3 Years</option><option value="4">4 Years</option><option value="5">5 Years</option>
+                    </select>
+                </div>
+
+                <div id="gc-cred-box" class="hidden-section">
+                    <label class="flex items-center p-5 bg-blue-500/5 border border-blue-500/10 rounded-2xl cursor-pointer">
+                        <input type="checkbox" id="gc-no-cred" onchange="calcGC()" class="w-6 h-6 rounded-lg accent-blue-600">
+                        <span class="ml-4 font-bold text-blue-200 text-sm uppercase tracking-tight">CIMS Account Technical Assistance</span>
                     </label>
                 </div>
-            </div>
 
-            <div class="mb-6">
-                <p class="text-[10px] uppercase font-black text-slate-500 mb-3 tracking-widest">Required Documents</p>
-                <ul id="req-docs" class="space-y-2 text-sm font-semibold text-slate-300 bg-slate-900/50 p-4 rounded-2xl border border-slate-700"></ul>
-            </div>
+                <div class="bg-slate-800/80 rounded-[35px] p-8 text-center border-t border-white/10 shadow-2xl">
+                    <p class="text-emerald-400 text-[10px] font-black uppercase tracking-[0.3em] mb-2 opacity-70">Calculated Service Fee</p>
+                    <div id="gc-price" class="text-5xl font-black text-white tracking-tighter">RM 0</div>
+                    <p id="gc-desc" class="text-slate-400 text-[10px] font-bold mt-2 uppercase tracking-widest"></p>
+                </div>
 
-            <div class="note-box mb-8">
-                <p class="text-[11px] text-orange-200 font-medium leading-relaxed">
-                    <i class="fas fa-gavel mr-1 text-orange-400"></i> <strong>IMPORTANT:</strong> Prices are negotiable. Blacklist removal requires extra verification and processing time.
-                </p>
+                <a href="#" id="wa-button-gc" class="w-full flex items-center justify-center bg-green-600 text-white font-black py-5 rounded-[24px] text-xl transition-all shadow-lg shadow-green-900/20">
+                    <i class="fab fa-whatsapp text-3xl mr-3"></i> INQUIRE FOR PROCESSING
+                </a>
             </div>
-
-            <div class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-8 text-center shadow-2xl mb-8 border border-blue-400/20">
-                <p class="text-blue-100 text-[10px] font-black uppercase tracking-[0.3em] mb-2 opacity-80">Total Professional Fee</p>
-                <div id="price-display" class="text-5xl font-black text-white drop-shadow-lg">RM 0</div>
-                <p id="breakdown-text" class="text-blue-200 text-[10px] font-bold mt-2 uppercase tracking-widest"></p>
-            </div>
-
-            <a href="#" id="wa-button" class="w-full flex items-center justify-center bg-[#22c55e] hover:bg-[#16a34a] text-white font-black py-5 rounded-2xl shadow-xl transition-all hover:scale-[1.02] active:scale-95 text-xl">
-                <i class="fab fa-whatsapp text-3xl mr-3"></i> CONTACT ON WHATSAPP
-            </a>
         </div>
     </div>
 
     <script>
-        let currentType = 'new';
+        const phone = "60123420658";
+        let currentService = 'reg', currentType = 'new', gcType = 'local';
+
         const gradeData = {
-            "G1": { new: 255, renew: 320, capital: "5,000", capacity: "200,000", blacklist: 700, docs: ["Director IC Copy", "SSM (Full Set)", "Bank Statement"] },
-            "G2": { new: 575, renew: 510, capital: "25,000", capacity: "500,000", blacklist: 700, docs: ["Director IC Copy", "SSM (Full Set)", "Bank Statement"] },
-            "G3": { new: 1015, renew: 695, capital: "50,000", capacity: "1 Million", blacklist: 700, docs: ["Director IC Copy", "SSM (Full Set)", "Bank Statement"] },
-            "G4": { new: 1450, renew: 910, capital: "150,000", capacity: "3 Million", blacklist: 950, docs: ["Director IC Copy", "SSM (Full Set)", "Bank Statement"] },
-            "G5": { new: 2060, renew: 970, capital: "250,000", capacity: "5 Million", blacklist: 1500, docs: ["Director IC Copy", "SSM Full Set", "Bank Statement", "1x Tech Personnel"] },
-            "G6": { new: 2665, renew: 1210, capital: "500,000", capacity: "10 Million", blacklist: 2000, docs: ["Director IC Copy", "SSM Full Set", "Bank Statement", "Tech Personnel"] },
-            "G7": { new: 3025, renew: 1815, capital: "750,000", capacity: "NO LIMIT", blacklist: 2000, docs: ["Director IC Copy", "SSM Full Set", "Bank Statement", "2x Tech Personnel"] }
+            "G1": { new: 255, renew: 320, capital: "5,000", capacity: "200,000", blacklist: 700, docs: ["Director MyKad Copy", "SSM Business Profile", "Latest Bank Statement"] },
+            "G2": { new: 575, renew: 510, capital: "25,000", capacity: "500,000", blacklist: 700, docs: ["Director MyKad Copy", "SSM Business Profile", "Latest Bank Statement"] },
+            "G3": { new: 1015, renew: 695, capital: "50,000", capacity: "1 Million", blacklist: 700, docs: ["Director MyKad Copy", "SSM Business Profile", "Latest Bank Statement"] },
+            "G4": { new: 1450, renew: 910, capital: "150,000", capacity: "3 Million", blacklist: 950, docs: ["Director MyKad Copy", "SSM Business Profile", "Latest Bank Statement"] },
+            "G5": { new: 2060, renew: 970, capital: "250,000", capacity: "5 Million", blacklist: 1500, docs: ["Director MyKad Copy", "SSM Full Set", "Latest Bank Statement", "Technical Personnel"] },
+            "G6": { new: 2665, renew: 1210, capital: "500,000", capacity: "10 Million", blacklist: 2000, docs: ["Director MyKad Copy", "SSM Full Set", "Latest Bank Statement", "Technical Personnel"] },
+            "G7": { new: 3025, renew: 1815, capital: "750,000", capacity: "NO LIMIT", blacklist: 2000, docs: ["Director MyKad Copy", "SSM Full Set", "Latest Bank Statement", "2x Tech Personnel"] }
         };
+
+        function showService(s) {
+            currentService = s;
+            document.getElementById('selection-screen').classList.add('hidden-section');
+            document.getElementById('service-container').classList.remove('hidden-section');
+            document.getElementById('section-reg').classList.toggle('hidden-section', s !== 'reg');
+            document.getElementById('section-card').classList.toggle('hidden-section', s !== 'card');
+            s === 'reg' ? calc() : calcGC();
+        }
+
+        function goBack() {
+            document.getElementById('selection-screen').classList.remove('hidden-section');
+            document.getElementById('service-container').classList.add('hidden-section');
+        }
 
         function setType(t) {
             currentType = t;
-            document.getElementById('btn-new').className = t === 'new' ? 'flex-1 py-4 font-bold text-center transition rounded-2xl tab-active uppercase text-xs tracking-wider' : 'flex-1 py-4 font-bold text-center transition rounded-2xl tab-inactive uppercase text-xs tracking-wider border border-transparent';
-            document.getElementById('btn-renew').className = t === 'renew' ? 'flex-1 py-4 font-bold text-center transition rounded-2xl tab-active uppercase text-xs tracking-wider' : 'flex-1 py-4 font-bold text-center transition rounded-2xl tab-inactive uppercase text-xs tracking-wider border border-transparent';
+            document.getElementById('btn-new').className = t === 'new' ? 'flex-1 py-4 font-bold rounded-2xl tab-active text-[10px] tracking-widest' : 'flex-1 py-4 font-bold rounded-2xl tab-inactive text-[10px] tracking-widest';
+            document.getElementById('btn-renew').className = t === 'renew' ? 'flex-1 py-4 font-bold rounded-2xl tab-active text-[10px] tracking-widest' : 'flex-1 py-4 font-bold rounded-2xl tab-inactive text-[10px] tracking-widest';
             document.getElementById('renewal-options').classList.toggle('hidden', t === 'new');
             calc();
         }
@@ -156,41 +278,65 @@
             const grade = document.getElementById('grade').value;
             const years = parseInt(document.getElementById('years').value);
             const info = gradeData[grade];
-            
             document.getElementById('req-capital').innerText = "RM " + parseInt(info.capital.replace(/,/g, '')).toLocaleString();
             document.getElementById('req-capacity').innerText = info.capacity === "NO LIMIT" ? info.capacity : "Up to " + info.capacity;
-            document.getElementById('req-docs').innerHTML = info.docs.map(d => `<li class='flex items-center'><i class='fas fa-check-circle text-blue-500 mr-3'></i> ${d}</li>`).join('');
-            
-            // Show current grade's blacklist fee in label
-            document.getElementById('blacklist-fee-text').innerText = `+ RM ${info.blacklist.toLocaleString()} SPECIAL CASE FEE`;
-
-            let total = 0;
-            let breakdown = "";
-
+            document.getElementById('req-docs').innerHTML = info.docs.map(d => `<li class='flex items-center bg-white/5 p-2 rounded-lg text-slate-300'><i class='fas fa-check-circle text-blue-500 mr-3'></i> ${d}</li>`).join('');
+            document.getElementById('blacklist-fee-text').innerText = `+ RM ${info.blacklist.toLocaleString()} FEE`;
+            let total = 0, breakdown = "";
             if (currentType === 'new') {
-                total = info.new * years;
-                breakdown = `${years} Year New Registration`;
+                total = info.new * years; breakdown = `${years} Year Initial Registration`;
             } else {
                 const scoreReq = document.getElementById('score').checked;
                 const blacklistReq = document.getElementById('blacklist').checked;
-                
                 let ccdCost = (years * 40 / 20) * 350;
                 total = (info.renew * years) + ccdCost;
-                breakdown = `${years} Yr Renew + ${years*40} CCD`;
-                
-                if (scoreReq) { total += 350; breakdown += " + Score"; }
-                if (blacklistReq) { total += info.blacklist; breakdown += " + BLACKLIST CLEARANCE"; }
+                breakdown = `${years} Yr Renewal + ${years*40} CCD Units`;
+                if (scoreReq) { total += 350; breakdown += " + Score Processing"; }
+                if (blacklistReq) { total += info.blacklist; breakdown += " + Blacklist Resolution"; }
             }
-
             document.getElementById('price-display').innerText = "RM " + total.toLocaleString();
             document.getElementById('breakdown-text').innerText = breakdown;
-
-            const phone = "60123420658"; 
-            const msg = `CIDB Inquiry: ${currentType} Grade ${grade} for ${years} yr. Total: RM${total}. (${breakdown})`;
-            document.getElementById('wa-button').href = "https://wa.me/" + phone + "?text=" + encodeURIComponent(msg);
+            document.getElementById('wa-button').href = "https://wa.me/" + phone + "?text=" + encodeURIComponent(`CIDB Professional Inquiry: ${currentType} Grade ${grade} for ${years} yr. Estimated Fee: RM${total}. (${breakdown})`);
         }
 
-        window.onload = calc;
+        function setGCType(t) {
+            gcType = t;
+            document.getElementById('gc-local').className = t === 'local' ? 'flex-1 py-4 font-bold rounded-xl tab-active text-[10px] tracking-widest' : 'flex-1 py-4 font-bold rounded-xl tab-inactive text-[10px] tracking-widest';
+            document.getElementById('gc-foreign').className = t === 'foreign' ? 'flex-1 py-4 font-bold rounded-xl tab-active text-[10px] tracking-widest' : 'flex-1 py-4 font-bold rounded-xl tab-inactive text-[10px] tracking-widest';
+            document.getElementById('gc-qty-box').classList.toggle('hidden-section', t === 'local');
+            document.getElementById('gc-years-box').classList.toggle('hidden-section', t === 'foreign');
+            document.getElementById('gc-cred-box').classList.toggle('hidden-section', t === 'local');
+            calcGC();
+        }
+
+        function calcGC() {
+            let total = 0, desc = "", discTag = document.getElementById('live-discount-tag');
+            discTag.classList.add('hidden');
+
+            if (gcType === 'local') {
+                const y = parseInt(document.getElementById('gc-years').value);
+                total = 150 * y; desc = `Personnel Registration (${y} Year)`;
+            } else {
+                const q = parseInt(document.getElementById('gc-qty').value) || 1;
+                total = 125 * q;
+                if (q >= 13) {
+                    total *= 0.88; 
+                    discTag.innerText = "CORPORATE RATE APPLIED";
+                    discTag.classList.remove('hidden');
+                } else if (q >= 5) {
+                    total *= 0.92;
+                    discTag.innerText = "BULK SAVING APPLIED";
+                    discTag.classList.remove('hidden');
+                }
+                desc = `${q} Foreign Personnel Processing`;
+                if (document.getElementById('gc-no-cred').checked) total += 200;
+            }
+            document.getElementById('gc-price').innerText = "RM " + Math.round(total).toLocaleString();
+            document.getElementById('gc-desc').innerText = desc;
+            document.getElementById('wa-button-gc').href = "https://wa.me/" + phone + "?text=" + encodeURIComponent(`Green Card Service Inquiry: ${desc}. Estimated Fee: RM${Math.round(total)}`);
+        }
+
+        window.onload = () => { calc(); calcGC(); };
     </script>
 </body>
 </html>
