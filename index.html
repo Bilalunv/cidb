@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIDB Specialist Malaysia | Dark Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        
+        body { 
+            background-color: #0f172a; /* Deep Dark Background */
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Trademark Watermark Pattern */
+        body::before {
+            content: "CIDB CIDB CIDB CIDB";
+            position: fixed;
+            top: 0; left: 0; width: 200%; height: 200%;
+            font-size: 100px;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.03); /* Very subtle watermark */
+            transform: rotate(-30deg);
+            z-index: -1;
+            display: flex;
+            flex-wrap: wrap;
+            line-height: 200px;
+            pointer-events: none;
+        }
+
+        .card { 
+            background: rgba(30, 41, 59, 0.95); /* Slate Dark Card */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
+        }
+
+        .tab-active { background: #3b82f6; color: white; box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+        .tab-inactive { background: #1e293b; color: #94a3b8; }
+        
+        select, input { 
+            background-color: #0f172a !important; 
+            color: white !important;
+            border-color: #334155 !important;
+        }
+
+        .note-box { 
+            background: rgba(245, 158, 11, 0.1); 
+            border-left: 4px solid #f59e0b; 
+            padding: 12px 16px; 
+            border-radius: 12px; 
+        }
+    </style>
+</head>
+<body class="p-4 md:p-12">
+
+    <div class="max-w-2xl mx-auto text-center mb-10 relative z-10">
+        <span class="bg-blue-600/20 text-blue-400 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest border border-blue-500/30">Official Consultant</span>
+        <h1 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-2 tracking-tight">CIDB Services <span class="text-blue-500 text-nowrap tracking-tighter">Malaysia</span></h1>
+        <p class="text-slate-400 text-base md:text-lg font-medium">Fast, Reliable & Professional Licensing Solutions</p>
+    </div>
+
+    <div class="max-w-xl mx-auto card overflow-hidden relative z-10">
+        <div class="flex p-3 gap-2 bg-slate-800/50">
+            <button id="btn-new" onclick="setType('new')" class="flex-1 py-4 font-bold text-center transition rounded-2xl tab-active uppercase text-xs tracking-wider">New Registration</button>
+            <button id="btn-renew" onclick="setType('renew')" class="flex-1 py-4 font-bold text-center transition rounded-2xl tab-inactive uppercase text-xs tracking-wider border border-transparent hover:border-slate-600">Renewal</button>
+        </div>
+
+        <div class="p-6 md:p-10">
+            <div class="mb-6">
+                <label class="block text-[10px] font-black text-slate-500 mb-2 uppercase tracking-[0.2em] text-center">Step 1: Select Your Grade</label>
+                <select id="grade" onchange="calc()" class="w-full p-4 border-2 rounded-2xl outline-none text-2xl font-bold transition-all focus:ring-2 focus:ring-blue-500">
+                    <option value="G1">Grade G1</option>
+                    <option value="G2">Grade G2</option>
+                    <option value="G3">Grade G3</option>
+                    <option value="G4">Grade G4</option>
+                    <option value="G5">Grade G5</option>
+                    <option value="G6">Grade G6</option>
+                    <option value="G7">Grade G7</option>
+                </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20">
+                    <p class="text-[10px] uppercase font-black text-emerald-400 mb-1">Paid-up Capital</p>
+                    <p id="req-capital" class="font-black text-white text-xl">RM 5,000</p>
+                </div>
+                <div class="p-4 bg-blue-500/10 rounded-2xl border border-blue-500/20 text-right">
+                    <p class="text-[10px] uppercase font-black text-blue-400 mb-1">Capacity</p>
+                    <p id="req-capacity" class="font-black text-white text-xl">Up to 200k</p>
+                </div>
+            </div>
+
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label class="block text-[10px] font-black text-slate-500 mb-2 uppercase tracking-widest">Registration Period</label>
+                    <select id="years" onchange="calc()" class="w-full p-4 border-2 rounded-xl font-bold">
+                        <option value="1">1 Year</option>
+                        <option value="2">2 Years</option>
+                        <option value="3">3 Years</option>
+                    </select>
+                </div>
+                
+                <div id="extra-options" class="hidden">
+                    <label class="flex items-center p-4 bg-orange-500/5 rounded-xl border border-orange-500/20 cursor-pointer hover:bg-orange-500/10 transition">
+                        <input type="checkbox" id="score" onchange="calc()" class="w-6 h-6 rounded accent-orange-500">
+                        <span class="ml-4 font-bold text-orange-200 text-sm italic">Include Score Certificate (+RM 350)</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <p class="text-[10px] uppercase font-black text-slate-500 mb-3 tracking-widest">Required Documents</p>
+                <ul id="req-docs" class="space-y-2 text-sm font-semibold text-slate-300 bg-slate-900/50 p-4 rounded-2xl border border-slate-700"></ul>
+            </div>
+
+            <div class="note-box mb-8">
+                <p class="text-[11px] text-orange-200 font-medium leading-relaxed">
+                    <i class="fas fa-gavel mr-1 text-orange-400"></i> <strong>IMPORTANT:</strong> Prices are negotiable based on company volume. CIDB may request further documentation upon review.
+                </p>
+            </div>
+
+            <div class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-8 text-center shadow-2xl mb-8 border border-blue-400/20">
+                <p class="text-blue-100 text-[10px] font-black uppercase tracking-[0.3em] mb-2 opacity-80">Total Professional Fee</p>
+                <div id="price-display" class="text-5xl font-black text-white drop-shadow-lg">RM 0</div>
+                <p id="breakdown-text" class="text-blue-200 text-[10px] font-bold mt-2 uppercase tracking-widest"></p>
+            </div>
+
+            <a href="#" id="wa-button" class="w-full flex items-center justify-center bg-[#22c55e] hover:bg-[#16a34a] text-white font-black py-5 rounded-2xl shadow-xl transition-all hover:scale-[1.02] active:scale-95 text-xl">
+                <i class="fab fa-whatsapp text-3xl mr-3"></i> CONTACT ON WHATSAPP
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let currentType = 'new';
+        const gradeData = {
+            "G1": { new: 255, renew: 320, capital: "5,000", capacity: "200,000", docs: ["Director IC Copy", "SSM (Full Set)", "Latest Bank Statement"] },
+            "G2": { new: 575, renew: 510, capital: "25,000", capacity: "500,000", docs: ["Director IC Copy", "SSM (Full Set)", "Latest Bank Statement"] },
+            "G3": { new: 1015, renew: 695, capital: "50,000", capacity: "1 Million", docs: ["Director IC Copy", "SSM (Full Set)", "Latest Bank Statement"] },
+            "G4": { new: 1450, renew: 910, capital: "150,000", capacity: "3 Million", docs: ["Director IC Copy", "SSM (Full Set)", "Latest Bank Statement"] },
+            "G5": { new: 2060, renew: 970, capital: "250,000", capacity: "5 Million", docs: ["Director IC Copy", "SSM Full Set", "Bank Statement", "1x Tech Personnel (Degree)"] },
+            "G6": { new: 2665, renew: 1210, capital: "500,000", capacity: "10 Million", docs: ["Director IC Copy", "SSM Full Set", "Bank Statement", "Tech Personnel Details"] },
+            "G7": { new: 3025, renew: 1815, capital: "750,000", capacity: "NO LIMIT", docs: ["Director IC Copy", "SSM Full Set", "Bank Statement", "2x Tech Personnel (Degree)"] }
+        };
+
+        function setType(t) {
+            currentType = t;
+            document.getElementById('btn-new').className = t === 'new' ? 'flex-1 py-4 font-bold text-center transition rounded-2xl tab-active uppercase text-xs tracking-wider' : 'flex-1 py-4 font-bold text-center transition rounded-2xl tab-inactive uppercase text-xs tracking-wider border border-transparent';
+            document.getElementById('btn-renew').className = t === 'renew' ? 'flex-1 py-4 font-bold text-center transition rounded-2xl tab-active uppercase text-xs tracking-wider' : 'flex-1 py-4 font-bold text-center transition rounded-2xl tab-inactive uppercase text-xs tracking-wider border border-transparent';
+            document.getElementById('extra-options').classList.toggle('hidden', t === 'new');
+            calc();
+        }
+
+        function calc() {
+            const grade = document.getElementById('grade').value;
+            const years = parseInt(document.getElementById('years').value);
+            const info = gradeData[grade];
+            
+            document.getElementById('req-capital').innerText = "RM " + parseInt(info.capital.replace(/,/g, '')).toLocaleString();
+            document.getElementById('req-capacity').innerText = info.capacity === "NO LIMIT" ? info.capacity : "Up to " + info.capacity;
+            document.getElementById('req-docs').innerHTML = info.docs.map(d => `<li class='flex items-center text-slate-300'><i class='fas fa-check-circle text-blue-500 mr-3'></i> ${d}</li>`).join('');
+
+            let total = 0;
+            let breakdown = "";
+
+            if (currentType === 'new') {
+                total = info.new * years;
+                breakdown = `${years} Year New Registration`;
+            } else {
+                const scoreReq = document.getElementById('score').checked;
+                let ccdCost = (years * 40 / 20) * 350;
+                total = (info.renew * years) + ccdCost;
+                breakdown = `${years} Yr Renewal + ${years*40} CCD Points`;
+                if (scoreReq) { total += 350; breakdown += " + Score Cert"; }
+            }
+
+            document.getElementById('price-display').innerText = "RM " + total.toLocaleString();
+            document.getElementById('breakdown-text').innerText = breakdown;
+
+            const phone = "601131461947"; 
+            const msg = `CIDB Inquiry: ${currentType} Grade ${grade} for ${years} yr. Estimated: RM${total}. (Negotiable Inquiry)`;
+            document.getElementById('wa-button').href = "https://wa.me/" + phone + "?text=" + encodeURIComponent(msg);
+        }
+
+        window.onload = calc;
+    </script>
+</body>
+</html>
