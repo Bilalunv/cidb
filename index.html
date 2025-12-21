@@ -3,7 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CIDB Specialist Malaysia | Premium Portal</title>
+    
+    <title>CIDB Specialist Malaysia | G1-G7 Registration & Green Card Portal</title>
+    <meta name="description" content="Professional CIDB Consultant in Malaysia. Fast processing for G1-G7 Company Registration, License Renewal, and Personnel Green Cards for local & foreign workers.">
+    <meta name="keywords" content="CIDB registration, CIDB renewal, Green Card Malaysia, CIDB G1 G7, CIMS recovery, CIDB specialist">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "CIDB Consultancy",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "CIDB Specialist Malaysia",
+        "telephone": "+60123420658"
+      },
+      "areaServed": "Malaysia",
+      "description": "Professional CIDB Company Registration and Green Card processing services."
+    }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -55,26 +74,7 @@
             box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
         }
 
-        .tab-active { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
-        .tab-inactive { background: #1e293b; color: #94a3b8; }
-        
         select, input { background-color: #020617 !important; color: white !important; border: 1px solid #334155 !important; outline: none; }
-
-        .discount-badge {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 99px;
-            font-size: 10px;
-            font-weight: 900;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
-        }
 
         .hidden-section { display: none; }
     </style>
@@ -82,29 +82,31 @@
 <body class="p-4 md:p-12">
     <div class="tech-bg"></div>
 
-    <div id="selection-screen" class="max-w-4xl mx-auto py-8 relative z-10">
+    <header id="selection-screen" class="max-w-4xl mx-auto py-8 relative z-10">
         <div class="text-center mb-10">
-            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-4">CIDB<span class="text-blue-500 italic">Smart Portal</span></h1>
-            <p class="text-slate-400 text-lg">Select professional service to begin.</p>
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-4">CIDB<span class="text-blue-500 italic">PORTAL</span></h1>
+            <p class="text-slate-400 text-lg">Malaysia's Professional Construction Compliance Partner.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div onclick="showService('reg-choice')" class="selection-card p-6 md:p-8 rounded-[32px] text-center">
+            <nav onclick="showService('reg-choice')" class="selection-card p-6 md:p-8 rounded-[32px] text-center" aria-label="Company Registration">
                 <i class="fas fa-layer-group text-2xl text-blue-500 mb-4"></i>
-                <h3 class="text-xl font-black">Company Registration</h3>
-            </div>
-            <div onclick="showService('card-choice')" class="selection-card p-6 md:p-8 rounded-[32px] text-center">
+                <h2 class="text-xl font-black">Company Registration</h2>
+                <p class="text-xs text-slate-500 mt-2 uppercase">G1 - G7 Specialist</p>
+            </nav>
+            <nav onclick="showService('card-choice')" class="selection-card p-6 md:p-8 rounded-[32px] text-center" aria-label="Green Card Services">
                 <i class="fas fa-id-badge text-2xl text-emerald-500 mb-4"></i>
-                <h3 class="text-xl font-black">Personnel Green Card</h3>
-            </div>
+                <h2 class="text-xl font-black">Personnel Green Card</h2>
+                <p class="text-xs text-slate-500 mt-2 uppercase">Local & Foreign Workers</p>
+            </nav>
         </div>
-    </div>
+    </header>
 
-    <div id="service-container" class="max-w-xl mx-auto hidden-section relative z-10">
+    <main id="service-container" class="max-w-xl mx-auto hidden-section relative z-10">
         <button id="universal-back" onclick="goBack()" class="mb-6 text-slate-500 hover:text-white transition flex items-center font-bold uppercase text-[10px] tracking-widest">
             <i class="fas fa-chevron-left mr-2"></i> Back
         </button>
 
-        <div id="section-reg-choice" class="hidden-section space-y-4">
+        <section id="section-reg-choice" class="hidden-section space-y-4">
             <h2 class="text-2xl font-black text-center mb-6 uppercase">Registration Type</h2>
             <div onclick="setType('new')" class="selection-card p-8 rounded-[32px] text-center">
                 <h3 class="text-xl font-bold">New Registration</h3>
@@ -112,9 +114,9 @@
             <div onclick="setType('renew')" class="selection-card p-8 rounded-[32px] text-center">
                 <h3 class="text-xl font-bold">License Renewal</h3>
             </div>
-        </div>
+        </section>
 
-        <div id="section-card-choice" class="hidden-section space-y-4">
+        <section id="section-card-choice" class="hidden-section space-y-4">
             <h2 class="text-2xl font-black text-center mb-6 uppercase">Personnel Type</h2>
             <div onclick="setGCType('local')" class="selection-card p-8 rounded-[32px] text-center">
                 <h3 class="text-xl font-bold">Local (MyKad)</h3>
@@ -122,9 +124,9 @@
             <div onclick="setGCType('foreign')" class="selection-card p-8 rounded-[32px] text-center">
                 <h3 class="text-xl font-bold">Foreign Worker</h3>
             </div>
-        </div>
+        </section>
 
-        <div id="section-reg" class="card overflow-hidden hidden-section">
+        <article id="section-reg" class="card overflow-hidden hidden-section">
             <div class="p-6 md:p-10">
                 <select id="grade" onchange="calc()" class="w-full p-5 rounded-2xl text-2xl font-black text-center mb-8">
                     <option value="G1">Grade G1</option><option value="G2">Grade G2</option>
@@ -135,11 +137,11 @@
 
                 <div class="grid grid-cols-2 gap-4 mb-8 text-center">
                     <div class="p-4 bg-slate-900/80 rounded-2xl">
-                        <p class="text-[10px] text-blue-400 font-bold uppercase">Capital</p>
+                        <p class="text-[10px] text-blue-400 font-bold uppercase">Min Capital</p>
                         <p id="req-capital" class="font-black text-white text-lg">-</p>
                     </div>
                     <div class="p-4 bg-slate-900/80 rounded-2xl">
-                        <p class="text-[10px] text-emerald-400 font-bold uppercase">Limit</p>
+                        <p class="text-[10px] text-emerald-400 font-bold uppercase">Tender Limit</p>
                         <p id="req-capacity" class="font-black text-white text-lg">-</p>
                     </div>
                 </div>
@@ -174,7 +176,10 @@
                     </div>
                 </div>
 
-                <ul id="req-docs" class="mb-8 grid grid-cols-1 gap-2 text-[11px] font-bold text-slate-400"></ul>
+                <div class="mb-4">
+                    <p id="doc-title" class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3">Required Documents</p>
+                    <ul id="req-docs" class="grid grid-cols-1 gap-2 text-[11px] font-bold text-slate-400"></ul>
+                </div>
 
                 <div class="bg-slate-900 rounded-[35px] p-8 text-center border-t border-white/10">
                     <p class="text-blue-400 text-[10px] font-black uppercase mb-2">Estimated Total</p>
@@ -185,9 +190,9 @@
                     <i class="fab fa-whatsapp text-3xl mr-3"></i> CONSULT SPECIALIST
                 </a>
             </div>
-        </div>
+        </article>
 
-        <div id="section-card" class="card p-6 md:p-10 hidden-section">
+        <article id="section-card" class="card p-6 md:p-10 hidden-section">
             <h2 id="gc-title" class="text-3xl font-black text-center mb-8 italic uppercase text-emerald-500">Local Card</h2>
             
             <div class="space-y-6">
@@ -225,12 +230,12 @@
                     <i class="fab fa-whatsapp text-3xl mr-3"></i> INQUIRE NOW
                 </a>
             </div>
-        </div>
-    </div>
+        </article>
+    </main>
 
     <script>
         const phone = "60123420658";
-        let currentPath = 'root'; // root, reg-choice, card-choice, calculator
+        let currentPath = 'root'; 
         let currentType = 'new', gcType = 'local';
 
         const gradeData = {
@@ -271,6 +276,10 @@
             document.getElementById('section-reg-choice').classList.add('hidden-section');
             document.getElementById('section-reg').classList.remove('hidden-section');
             document.getElementById('renewal-options').classList.toggle('hidden', t === 'new');
+            
+            // Set Document Heading based on Type
+            document.getElementById('doc-title').innerText = (t === 'new') ? "Documetns Required" : "Documetns Required";
+            
             calc();
         }
 
@@ -280,7 +289,10 @@
             const info = gradeData[grade];
             document.getElementById('req-capital').innerText = "RM " + parseInt(info.capital.replace(/,/g, '')).toLocaleString();
             document.getElementById('req-capacity').innerText = info.capacity === "NO LIMIT" ? "No Limit" : info.capacity;
+            
+            // Build the checklist UI
             document.getElementById('req-docs').innerHTML = info.docs.map(d => `<li class='flex items-center bg-white/5 p-2 rounded-lg'><i class='fas fa-check-circle text-blue-500 mr-2'></i> ${d}</li>`).join('');
+            
             document.getElementById('blacklist-fee-text').innerText = `+ RM ${info.blacklist.toLocaleString()} FEE`;
             
             let total = 0, breakdown = "";
@@ -352,5 +364,3 @@
     </script>
 </body>
 </html>
-
-
